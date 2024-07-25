@@ -42,6 +42,11 @@
     <p>Skriv !propell i kanalen til <a href="https://twitch.tv/forstegir">Førstegir</a> for å evaluere din propellering!</p>
 </div>
 
+<div id="historiskPropellering" class="content hide">
+    <h5>Historisk propellering</h5>
+    <p id="gaarsdagensPropell">...</p>
+</div>
+
 <script type="application/javascript">
     document.addEventListener("DOMContentLoaded", async () => {
         try {
@@ -52,6 +57,18 @@
             }
             document.querySelector("#propell").innerText = await response.text();
             document.querySelector("#propellRamme").classList.remove("hide");
+        } catch (error) {
+            console.error(error);
+        }
+
+        try {
+            const response = await fetch("https://api.egentlig.tech/twitch/user/propellering/v0/gaarsdagens-propellering");
+            if (!response.ok) {
+                console.error(response);
+                return;
+            }
+            document.querySelector("#gaarsdagensPropell").innerText = await response.text();
+            document.querySelector("#historiskPropellering").classList.remove("hide");
         } catch (error) {
             console.error(error);
         }
